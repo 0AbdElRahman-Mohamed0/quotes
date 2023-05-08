@@ -22,8 +22,7 @@ class QuoteCard extends StatelessWidget {
           Text(
             quote.content,
             textAlign: TextAlign.center,
-            style:
-                Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           40.ph,
           Text(

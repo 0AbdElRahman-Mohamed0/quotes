@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class Quote extends Equatable {
-  int id;
-  String author;
-  String content;
-  String category;
+  final int id;
+  final String author;
+  final String content;
+  final String category;
 
-  Quote(
+  const Quote(
       {required this.author,
       required this.category,
       required this.id,

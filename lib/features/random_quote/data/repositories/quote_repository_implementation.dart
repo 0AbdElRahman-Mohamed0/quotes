@@ -8,7 +8,7 @@ import 'package:quote_learn/features/random_quote/domain/entities/quote.dart';
 import 'package:quote_learn/features/random_quote/domain/repositories/quote_repository.dart';
 
 class QuoteRepositoryImplementation implements QuoteRepository {
-  final NetworkInfo networkInfo;
+  final NetworkInfoImplementation networkInfo;
   final RandomQuoteRemoteDataSource randomQuoteRemoteDataSource;
   final RandomQuoteLocalDataSource randomQuoteLocalDataSource;
 
@@ -24,6 +24,7 @@ class QuoteRepositoryImplementation implements QuoteRepository {
       try {
         final remoteRandomQuote =
             await randomQuoteRemoteDataSource.getRandomQuote();
+        randomQuoteLocalDataSource.cacheQuote(remoteRandomQuote);
         return Right(remoteRandomQuote);
       } on ServerException catch (e) {
         return Left(ServerFailure());

@@ -8,7 +8,7 @@ import 'package:quote_learn/features/random_quote/domain/entities/quote.dart';
 import 'package:quote_learn/features/random_quote/domain/repositories/quote_repository.dart';
 
 class QuoteRepositoryImplementation implements QuoteRepository {
-  final NetworkInfoImplementation networkInfo;
+  final NetworkInfo networkInfo;
   final RandomQuoteRemoteDataSource randomQuoteRemoteDataSource;
   final RandomQuoteLocalDataSource randomQuoteLocalDataSource;
 

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quote_learn/core/utils/app_strings.dart';
+import 'package:quote_learn/features/random_quote/presentation/cubit/random_quote_cubit.dart';
 import 'package:quote_learn/features/random_quote/presentation/screens/qoute_screen.dart';
+import 'package:quote_learn/injection_container.dart' as di;
 
 class Routes {
   static const String initialRoute = '/';
@@ -13,7 +16,10 @@ class AppRoutes {
     switch (routeSettings.name) {
       case Routes.initialRoute:
         return CupertinoPageRoute(builder: ((context) {
-          return const QuoteScreen();
+          return BlocProvider(
+            create: (_) => di.sl<RandomQuoteCubit>(),
+            child: const QuoteScreen(),
+          );
         }));
 
       // case Routes.randomQuoteRoute:

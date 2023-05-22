@@ -23,7 +23,7 @@ class RandomQuoteRemoteDataSourceImplementation
       AppStrings.xApiKey: AppStrings.key,
     });
     if (response.statusCode == 200) {
-      return QuoteModel.fromJson(json.decode(response.body));
+      return QuoteModel.fromJson(json.decode(response.body)[0]);
     } else {
       throw ServerException();
     }

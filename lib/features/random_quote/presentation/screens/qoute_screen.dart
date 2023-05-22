@@ -1,38 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:quote_learn/core/utils/app_colors.dart';
 import 'package:quote_learn/core/utils/app_strings.dart';
-import 'package:quote_learn/features/random_quote/domain/entities/quote.dart';
+import 'package:quote_learn/core/widgets/error_widget.dart' as error_widget;
+import 'package:quote_learn/features/random_quote/presentation/cubit/random_quote_cubit.dart';
 import 'package:quote_learn/features/random_quote/presentation/widgets/quote_card.dart';
 
-class QuoteScreen extends StatelessWidget {
+class QuoteScreen extends StatefulWidget {
   const QuoteScreen({Key? key}) : super(key: key);
 
-  Widget _buildBody(BuildContext context) {
-    return Column(
-      children: [
-        QuoteCard(
-          quote: Quote(
-              id: 1,
-              author: 'Bedo',
-              category: 'cat',
-              content:
-                  'You can do anything that you can imagine, So Just do it no thing is impossible just do it yesterday you said tomorrow.'),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Container(
-            height: 44,
-            width: 44,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Theme.of(context).primaryColor,
+  @override
+  State<QuoteScreen> createState() => _QuoteScreenState();
+}
+
+class _QuoteScreenState extends State<QuoteScreen> {
+  _getRandomQuote() => context.read<RandomQuoteCubit>().getRandomQuote();
+
+  @override
+  void initState() {
+    super.initState();
+    _getRandomQuote();
+  }
+
+  Widget _buildBody() {
+    return BlocBuilder<RandomQuoteCubit, RandomQuoteState>(
+      builder: (context, state) {
+        if (state is RandomQuoteIsLoading) {
+          return Center(
+            child: SpinKitFadingCircle(
+              color: AppColors.primary,
             ),
-            child: const Icon(
-              Icons.refresh,
-              color: Colors.white,
+          );
+        } else if (state is RandomQuoteError) {
+          return const error_widget.ErrorWidget();
+        } else if (state is RandomQuoteLoaded) {
+          return Column(
+            children: [
+              QuoteCard(quote: state.quote),
+              InkWell(
+                onTap: _getRandomQuote,
+                child: Container(
+                  height: 44,
+                  width: 44,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: const Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Center(
+            child: SpinKitFadingCircle(
+              color: AppColors.primary,
             ),
-          ),
-        ),
-      ],
+          );
+        }
+      },
     );
   }
 
@@ -41,9 +71,12 @@ class QuoteScreen extends StatelessWidget {
     final appBar = AppBar(
       title: const Text(AppStrings.appName),
     );
-    return Scaffold(
-      appBar: appBar,
-      body: _buildBody(context),
+    return RefreshIndicator(
+      onRefresh: () => _getRandomQuote(),
+      child: Scaffold(
+        appBar: appBar,
+        body: _buildBody(),
+      ),
     );
   }
 }

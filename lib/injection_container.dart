@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:quote_learn/core/api/api_consumer.dart';
 import 'package:quote_learn/core/api/app_interceptors.dart';
 import 'package:quote_learn/core/api/dio_consumer.dart';
@@ -49,11 +50,17 @@ Future<void> init() async {
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => InternetConnectionChecker());
   sl.registerLazySingleton(() => AppInterceptors());
-  sl.registerLazySingleton(() => LogInterceptor(
-      request: true,
-      requestBody: true,
-      requestHeader: true,
-      responseBody: true,
-      responseHeader: true,
-      error: true));
+  sl.registerLazySingleton(() => PrettyDioLogger(
+        requestBody: true,
+        responseBody: true,
+        requestHeader: true,
+        error: true,
+      ));
+  // sl.registerLazySingleton(() => LogInterceptor(
+  //     request: true,
+  //     requestBody: true,
+  //     requestHeader: true,
+  //     responseBody: true,
+  //     responseHeader: true,
+  //     error: true));
 }

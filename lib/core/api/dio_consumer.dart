@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:quote_learn/core/api/api_consumer.dart';
 import 'package:quote_learn/core/api/app_interceptors.dart';
 import 'package:quote_learn/core/api/end_points.dart';
@@ -32,7 +33,7 @@ class DioConsumer implements ApiConsumer {
 
     client.interceptors.add(di.sl<AppInterceptors>());
     if (kDebugMode) {
-      client.interceptors.add(di.sl<LogInterceptor>());
+      client.interceptors.add(di.sl<PrettyDioLogger>());
     }
   }
 

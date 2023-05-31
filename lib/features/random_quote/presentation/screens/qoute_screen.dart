@@ -37,25 +37,27 @@ class _QuoteScreenState extends State<QuoteScreen> {
             onPressed: _getRandomQuote,
           );
         } else if (state is RandomQuoteLoaded) {
-          return Column(
-            children: [
-              QuoteCard(quote: state.quote),
-              InkWell(
-                onTap: _getRandomQuote,
-                child: Container(
-                  height: 44,
-                  width: 44,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: const Icon(
-                    Icons.refresh,
-                    color: Colors.white,
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                QuoteCard(quote: state.quote),
+                InkWell(
+                  onTap: _getRandomQuote,
+                  child: Container(
+                    height: 44,
+                    width: 44,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: const Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         } else {
           return Center(
